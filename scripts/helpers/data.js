@@ -25,7 +25,7 @@ function _findAllMediaPhotographer(name){
         .reduce((acc, media) => {
             const {id, title, image, likes , video} = media;
             const whatMediaIs = image ?? video;
-            acc = {...photographer, medias: acc?.medias.concat([{id, title, 
+            acc = {...photographer, medias: acc?.medias.concat([{id, title,
                 media: _mediaType(`images/${photographer.first}/${whatMediaIs}`), likes}])}
             return acc;
         }, {medias: []});
