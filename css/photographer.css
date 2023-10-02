@@ -1,3 +1,7 @@
+@keyframes modal-anim {
+    0%{transform: translateY(-183px);}
+    100%{transform: translateY(183px);}
+}
 #contact_modal {
     display: none;
 }
@@ -5,7 +9,12 @@
 .photograph-header {
     background-color: #FAFAFA;
     height: 300px;
-    margin: 0 100px;
+    margin: 46px 100px;
+    display: flex;
+    flex-direction: row;
+    padding:30px 75px;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .contact_button {
@@ -24,13 +33,34 @@
 .modal {
     border-radius: 5px;
     background-color: #DB8876;
-    width: 50%;
+    width: 669px;
+    height: 900px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
     padding: 35px;
     margin: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    left: 0;
+    z-index: 2;
+    animation: modal-anim;
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+.modal form input {
+    width: 599px;
+    height: 68px;
+    font-size: 2rem;
+}
+
+.modal form textarea {
+    width: 599px;
+    height: 170px;
+    font-size: 1.5rem;
 }
 
 .modal header {
@@ -40,12 +70,46 @@
 
 .modal header img {
     cursor: pointer;
+    height: 50px;
 }
 
 .modal header h2 {
     font-size: 64px;
     font-weight: normal;
     text-align: center;
+}
+
+.descriptionProfil h1 {
+    font-family: DM Sans;
+    font-size: 64px;
+    font-weight: 400;
+    line-height: 83px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #D3573C;
+
+}
+
+.descriptionProfil p:nth-child(2){
+    color: #D3573C;
+    font-family: DM Sans;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 31px;
+    letter-spacing: 0em;
+    text-align: left;
+
+}
+
+.descriptionProfil p:nth-child(3){
+    font-family: DM Sans;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 23px;
+    letter-spacing: 0em;
+    text-align: left;
+    color: #525252;
+
 }
 
 form {

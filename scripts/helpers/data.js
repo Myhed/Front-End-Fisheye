@@ -1,9 +1,11 @@
-import * as datas from '../../data/photographers.json' assert {type: "json"};
+export function request(url, opts = {}){
+    const request = new Request(url, opts);
+    return fetch(request)
+        .then(res => res.json())
+}
 
-
-function _getPhotographers(){
-    const { photographers } = datas.default;
-    
+async function _getPhotographers(){
+    const { photographers } = await request('./data/photographers.json');
     return photographers.map(photographer => {
         const [first, last] = photographer.name.split(' ');
         photographer.last = last;
@@ -12,19 +14,18 @@ function _getPhotographers(){
     });
 }
 
-function _getMedias(){
-    const { media } = datas.default;
+async function _getMedias(){
+    const { media } =  await request('./data/photographers.json');
     return media;
 }
 
-function _findAllMediaPhotographer(name){
-    const photographer = getPhotographerByName(name);
-    const medias = _getMedias();
+async function _findAllMediaPhotographer(name){
+    const [photographer, medias] = await Promise.all([getPhotographerByName(name), _getMedias()])
     return medias
         .filter(media => media.photographerId === photographer.id)
         .reduce((acc, media) => {
             const {id, title, image, likes , video} = media;
-            const whatMediaIs = image ?? video;
+            const whatMediaIs = image || video;
             acc = {...photographer, medias: acc?.medias.concat([{id, title,
                 media: _mediaType(`images/${photographer.first}/${whatMediaIs}`), likes}])}
             return acc;
@@ -39,18 +40,18 @@ function _mediaType(media = ''){
     return {type: 'image', path: media }
 }
 
-export function getPhotographerByName(name, photographersMap){
-    const photographers = photographersMap || _getPhotographers();
+export async function getPhotographerByName(name, photographersMap){
+    const photographers = photographersMap || await _getPhotographers()
     return photographers.find(photographer => photographer.first === name);
 }
 
-export function getPhotographerById(id, photographersMap){
-    const photographers = photographersMap || _getPhotographers() ;
-    return photographers.find(photographer => photographer.id === id);
+export async function getPhotographerById(id, photographersMap){
+    const photographers = photographersMap || await  _getPhotographers();
+    return photographers.find(photographer => photographer.id == id);
 }
 
 
-export function getPhotographersWithHisMedia(){
-    const photographers = _getPhotographers();
+export async function getPhotographersWithHisMedia(photographersMap){
+    const photographers = photographersMap || await _getPhotographers();
     return photographers.map(photographer => _findAllMediaPhotographer(photographer.first));
 }
